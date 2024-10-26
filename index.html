@@ -1,346 +1,122 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Initializing Portfolio</title>
+      <style>
+          body {
+              background: #0a0a0a;
+              margin: 0;
+              height: 100vh;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-family: 'Consolas', monospace;
+              color: #00f3ff;
+          }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <div class="loader-wrapper" id="loader">
-        <div class="cyber-loader">
-            <div class="loader-ring"></div>
-            <div class="load-percentage">0%</div>
-            <div class="loading-text">INITIALIZING PORTFOLIO</div>
-        </div>
-    </div>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brendon Buwerimwe | Future-Forward Developer</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="sections.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+          .terminal {
+              width: 80%;
+              max-width: 800px;
+              height: 80vh;
+              background: #1e1e1e;
+              border-radius: 8px;
+              padding: 20px;
+              box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+              overflow: hidden;
+          }
+
+          .line {
+              margin: 0;
+              padding: 3px 0;
+              white-space: pre;
+              opacity: 0;
+              transform: translateY(10px);
+              animation: fadeIn 0.5s ease forwards;
+          }
+
+          .success { color: #27c93f; }
+          .warning { color: #ffbd2e; }
+          .error { color: #ff5f56; }
+          .info { color: #00f3ff; }
+
+          @keyframes fadeIn {
+              to {
+                  opacity: 1;
+                  transform: translateY(0);
+              }
+          }
+
+          .progress {
+              width: 100%;
+              height: 2px;
+              background: #2d2d2d;
+              margin-top: 20px;
+              border-radius: 2px;
+              overflow: hidden;
+          }
+
+          .progress-bar {
+              width: 0%;
+              height: 100%;
+              background: #00f3ff;
+              transition: width 0.3s ease;
+          }
+      </style>
   </head>
   <body>
-      <div class="settings-panel">
-          <!-- Settings content here -->
+      <div class="terminal" id="terminal">
+          <div class="progress">
+              <div class="progress-bar" id="progressBar"></div>
+          </div>
       </div>
-      <!-- Rest of your content -->
-      <div class="cursor"></div>
-      <canvas id="bg-canvas"></canvas>
-          <header>
-              <nav class="cyber-nav">
-                  <div class="nav-container">
-                      <div class="header-profile">
-                          <img src="/images/IMG_20240119_100550_274.jpg" alt="Brendon" class="profile-image">
-                          <span class="profile-text">BB</span>
-                      </div>
+
+      <script>
+          const initSequence = [
+              { text: '> Initializing system...', type: 'info' },
+              { text: '> Loading HTML components...', type: 'info' },
+              { text: '> Importing stylesheets...', type: 'info' },
+              { text: '> Configuring JavaScript modules...', type: 'info' },
+              { text: '> Setting up navigation...', type: 'info' },
+              { text: '> Loading project data...', type: 'info' },
+              { text: '> Optimizing images...', type: 'info' },
+              { text: '> Checking dependencies...', type: 'info' },
+              { text: '> Running final checks...', type: 'info' },
+              { text: '✓ System initialization complete!', type: 'success' },
+              { text: '✓ Portfolio ready to launch!', type: 'success' },
+              { text: '> Redirecting to main interface...', type: 'info' }
+          ];
+
+          const terminal = document.getElementById('terminal');
+          const progressBar = document.getElementById('progressBar');
+          let currentLine = 0;
+
+          function addLine() {
+              if (currentLine < initSequence.length) {
+                  const line = document.createElement('div');
+                  line.className = `line ${initSequence[currentLine].type}`;
+                  line.style.animationDelay = `${currentLine * 0.1}s`;
+                  line.textContent = initSequence[currentLine].text;
+                  terminal.insertBefore(line, terminal.firstChild);
+
+                  updateProgress();
+                  currentLine++;
                 
-                      <div class="nav-toggle">
-                          <div class="hamburger">
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                          </div>
-                      </div>
+                  setTimeout(addLine, 500);
+              } else {
+                  setTimeout(() => {
+                      window.location.href = 'index.html';
+                  }, 1500);
+              }
+          }
 
-                      <ul class="nav-links">
-                          <li class="nav-item">
-                              <a href="#home">
-                                  <i class="fas fa-home"></i>
-                                  <span class="nav-text">Home</span>
-                                  <span class="nav-hover"></span>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="#projects">
-                                  <i class="fas fa-code"></i>
-                                  <span class="nav-text">Projects</span>
-                                  <span class="nav-hover"></span>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="#skills">
-                                  <i class="fas fa-brain"></i>
-                                  <span class="nav-text">Skills</span>
-                                  <span class="nav-hover"></span>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="#contact">
-                                  <i class="fas fa-paper-plane"></i>
-                                  <span class="nav-text">Contact</span>
-                                  <span class="nav-hover"></span>
-                              </a>
-                          </li>
-                      </ul>
-                  </div>
-              </nav>
-          </header>
-          <main>
-          <!-- Home Section -->
-          <section id="home">
-              <div class="animated-background">
-                  <div class="cube"></div>
-                  <div class="cube"></div>
-                  <div class="cube"></div>
-                  <div class="lines"></div>
-              </div>
-              
-              <div class="hero-content">
-                  <div class="glitch-wrapper">
-                      <h1 class="glitch-text" data-text="Brendon Buwerimwe">Brendon Buwerimwe</h1>
-                  </div>
-                  
-                  <div class="title-wrapper">
-                      <p class="cyber-title">
-                          <span class="title-tag"><</span>
-                          Full-Stack Developer
-                          <span class="title-tag">/></span>
-                      </p>
-                  </div>
-                  
-                  <div class="tech-stack-animation">
-                      <div class="tech-item">React</div>
-                      <div class="tech-item">Node.js</div>
-                      <div class="tech-item">Python</div>
-                      <div class="tech-item">MongoDB</div>
-                  </div>
-              </div>
-          </section>
-          <!-- Projects Section -->
-          <section id="projects">
-              <h2 data-aos="fade-right"><i class="fas fa-code-branch"></i> Featured Projects</h2>
-              <div class="project-grid">
-                  <div class="project-card" data-aos="flip-left" data-aos-delay="100">
-                      <div class="project-content">
-                          <i class="fas fa-globe project-icon"></i>
-                          <h3>AI-Powered Portfolio Generator</h3>
-                          <p>A revolutionary tool that generates personalized portfolios using AI algorithms and modern design principles. Built with React and TensorFlow.js.</p>
-                          <div class="tech-stack">
-                              <span><i class="fab fa-react"></i> React</span>
-                              <span><i class="fab fa-node"></i> Node.js</span>
-                              <span><i class="fas fa-database"></i> MongoDB</span>
-                          </div>
-                          <div class="project-links">
-                              <a href="#"><i class="fab fa-github"></i> Code</a>
-                              <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                          </div>
-                      </div>
-                  </div>
+          function updateProgress() {
+              const progress = (currentLine / initSequence.length) * 100;
+              progressBar.style.width = `${progress}%`;
+          }
 
-                  <div class="project-card" data-aos="flip-left" data-aos-delay="300">
-                      <div class="project-content">
-                          <i class="fas fa-mobile-alt project-icon"></i>
-                          <h3>Smart Home IoT Dashboard</h3>
-                          <p>A comprehensive IoT dashboard for managing smart home devices with real-time updates and energy consumption analytics.</p>
-                          <div class="tech-stack">
-                              <span><i class="fab fa-vuejs"></i> Vue.js</span>
-                              <span><i class="fas fa-server"></i> Express</span>
-                              <span><i class="fas fa-bolt"></i> Socket.io</span>
-                          </div>
-                          <div class="project-links">
-                              <a href="#"><i class="fab fa-github"></i> Code</a>
-                              <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </section>
-
-          <!-- Skills Section -->
-          <section id="skills">
-              <h2 data-aos="fade-down"><i class="fas fa-laptop-code"></i> Technical Arsenal</h2>
-              <div class="skills-container">
-                  <div class="skill-category" data-aos="fade-right" data-aos-delay="100">
-                      <h3><i class="fas fa-paint-brush"></i> Frontend</h3>
-                      <ul class="skill-list">
-                          <li><i class="fab fa-react"></i> React</li>
-                          <li><i class="fab fa-vuejs"></i> Vue.js</li>
-                          <li><i class="fab fa-js"></i> JavaScript</li>
-                          <li><i class="fab fa-html5"></i> HTML5</li>
-                          <li><i class="fab fa-css3-alt"></i> CSS3</li>
-                      </ul>
-                  </div>
-
-                  <div class="skill-category" data-aos="fade-right" data-aos-delay="300">
-                      <h3><i class="fas fa-server"></i> Backend</h3>
-                      <ul class="skill-list">
-                          <li><i class="fab fa-node"></i> Node.js</li>
-                          <li><i class="fas fa-database"></i> MongoDB</li>
-                          <li><i class="fas fa-database"></i> PostgreSQL</li>
-                          <li><i class="fab fa-python"></i> Python</li>
-                      </ul>
-                  </div>
-
-                  <div class="skill-category" data-aos="fade-right" data-aos-delay="500">
-                      <h3><i class="fas fa-tools"></i> Tools & DevOps</h3>
-                      <ul class="skill-list">
-                          <li><i class="fab fa-git-alt"></i> Git</li>
-                          <li><i class="fab fa-docker"></i> Docker</li>
-                          <li><i class="fab fa-aws"></i> AWS</li>
-                          <li><i class="fab fa-jenkins"></i> Jenkins</li>
-                      </ul>
-                  </div>
-              </div>
-          </section>
-
-          <!-- Contact Section -->
-          <section id="contact">
-              <h2 data-aos="zoom-in"><i class="fas fa-paper-plane"></i> Initialize Contact</h2>
-              <div class="contact-content">
-                  <div class="contact-info" data-aos="fade-right">
-                      <div class="contact-item">
-                          <i class="fas fa-envelope"></i>
-                          <p>brendonbuwe@gmail.com</p>
-                      </div>
-                      <div class="contact-item">
-                          <i class="fas fa-map-marker-alt"></i>
-                          <p>Harare, ZImbabwe</p>
-                      </div>
-                      <div class="contact-item">
-                          <i class="fas fa-phone"></i>
-                          <p>+263778425353</p>
-                      </div>
-                  </div>
-                  <form class="contact-form" data-aos="fade-left">
-                      <div class="input-group">
-                          <i class="fas fa-user"></i>
-                          <input type="text" placeholder="Your Name" required>
-                      </div>
-                      <div class="input-group">
-                          <i class="fas fa-envelope"></i>
-                          <input type="email" placeholder="Your Email" required>
-                      </div>
-                      <div class="input-group">
-                          <i class="fas fa-message"></i>
-                          <textarea placeholder="Your Message" required></textarea>
-                      </div>
-                      <button type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
-                  </form>
-              </div>
-          </section>
-    </main>
-    <footer class="footer" data-aos="fade-up">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Brendon Buwerimwe</h3>
-                <p class="footer-tagline">Building the future, one line of code at a time</p>
-                <div class="footer-social">
-                    <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul class="footer-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Contact Info</h4>
-                <ul class="footer-contact">
-                    <li><i class="fas fa-envelope"></i> brendonbuwe@gmail.com</li>
-                    <li><i class="fas fa-phone"></i> +263778425353</li>
-                    <li><i class="fas fa-map-marker-alt"></i> Harare,ZImbabwe</li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Newsletter</h4>
-                <form class="footer-newsletter">
-                    <input type="email" placeholder="Enter your email">
-                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
-                </form>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>© 2024 Brendon Buwerimwe. All rights reserved.</p>
-            <div class="footer-bottom-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-            </div>
-            <!-- Add this to your footer-section -->
-
-
-        </div>
-    </footer>
-    <!-- Add this in your hero section -->
-<div class="hero-buttons" data-aos="fade-up" data-aos-delay="800">
-    <button class="cyber-button download-cv">
-        <span class="cyber-button__glitch"></span>
-        <span class="cyber-button__tag">01</span>
-        <i class="fas fa-download"></i>
-        Download CV
-    </button>
-    
-    <button class="cyber-button view-projects" onclick="scrollToProjects()">
-        <span class="cyber-button__glitch"></span>
-        <span class="cyber-button__tag">02</span>
-        <i class="fas fa-rocket"></i>
-        View Projects
-    </button>
-</div>
-
-<!-- Add this near the top of your body tag -->
-<div class="settings-panel">
-    <button class="settings-toggle">
-        <i class="fas fa-cog"></i>
-    </button>
-    
-    <div class="settings-content">
-        <h3>Theme Settings</h3>
-        
-        <div class="theme-options">
-            <div class="color-scheme">
-                <h4>Color Scheme</h4>
-                <div class="color-buttons">
-                    <button class="color-btn" data-theme="cyber" style="--color: #00f3ff"></button>
-                    <button class="color-btn" data-theme="purple" style="--color: #b24fff"></button>
-                    <button class="color-btn" data-theme="green" style="--color: #00ff9d"></button>
-                    <button class="color-btn" data-theme="red" style="--color: #ff2957"></button>
-                </div>
-            </div>
-            
-            <div class="mode-toggle">
-                <h4>Mode</h4>
-                <label class="switch">
-                    <input type="checkbox" id="modeToggle">
-                    <span class="slider">
-                        <i class="fas fa-sun"></i>
-                        <i class="fas fa-moon"></i>
-                    </span>
-                </label>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="project-card reveal-left">
-    <!-- Project content -->
-</div>
-
-<div class="skill-category reveal-right">
-    <!-- Skill content -->
-</div>
-
-<div class="progress-bar" data-progress="85">
-    <!-- Progress bar content -->
-</div>
-    <!-- Place these before closing body tag -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <script src="script.js"></script>
-    
-</body>
-</html>
-
-
-
-
-  
+          addLine();
+      </script>
+  </body>
+  </html>
